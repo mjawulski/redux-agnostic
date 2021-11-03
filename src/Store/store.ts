@@ -1,3 +1,5 @@
+import { Action } from "./action.model";
+
 export class Store {
   reducers: { [key: string]: Function };
   state: { [key: string]: any };
@@ -7,5 +9,9 @@ export class Store {
     this.reducers = {};
     this.state = {};
     this.subscribers = [];
+  }
+
+  dispatch(action: Action) {
+    console.log("Action::", action);
   }
 }

@@ -1,3 +1,5 @@
+import { Store } from "./Store/store";
+
 const bookAuthor = document.querySelector(
   "#book-author"
 ) as HTMLParagraphElement;
@@ -11,10 +13,13 @@ const updateButton = document.querySelector(
 
 bookAuthor.innerText = "Initial Book Author";
 
+const store = new Store();
+
 updateButton.addEventListener("click", (e) => {
   if (!bookAuthorInput.value.trim()) {
     return;
   }
   const newBookAuthor = bookAuthorInput.value.trim();
-  console.log("new book author::", newBookAuthor);
+  const action = { type: "UPDATE_BOOK_AUTHOR", payload: newBookAuthor };
+  store.dispatch(action);
 });
