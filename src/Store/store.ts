@@ -7,7 +7,7 @@ export class Store {
 
   constructor(reducers = {}, initialState = {}) {
     this.reducers = reducers;
-    this.state = initialState;
+    this.state = this.reduce(initialState, {});
     this.subscribers = [];
   }
 
@@ -15,13 +15,18 @@ export class Store {
     return this.state;
   }
 
+  reduce(state: any, action: Action) {
+    const newState: { [key: string]: any } = {};
+    for (const prop in this.reducers) {
+      if (Object.prototype.hasOwnProperty.call(this.reducers, prop)) {
+        const reducer = this.reducers[prop];
+        newState[prop] = reducer(state[prop], action);
+      }
+    }
+    return newState;
+  }
+
   dispatch(action: Action) {
-    this.state = {
-      ...this.state,
-      book: {
-        ...this.state.book,
-        author: action.payload,
-      },
-    };
+    this.state = this.reduce(this.state, action);
   }
 }
