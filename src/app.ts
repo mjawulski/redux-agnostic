@@ -12,8 +12,16 @@ const updateButton = document.querySelector(
   "#update-book-author-button"
 ) as HTMLButtonElement;
 
+const subscribeButton = document.querySelector("#subscribe-button");
+
 const store = new Store({ book: bookReducer });
-console.log("current value::", store.value);
+
+subscribeButton.addEventListener("click", (e) => {
+  store.subscribe((state) => {
+    bookAuthor.innerText = state.book.author;
+  });
+});
+
 updateButton.addEventListener("click", (e) => {
   if (!bookAuthorInput.value.trim()) {
     return;
@@ -21,5 +29,4 @@ updateButton.addEventListener("click", (e) => {
   const newBookAuthor = bookAuthorInput.value.trim();
   const action = { type: "UPDATE_BOOK_AUTHOR", payload: newBookAuthor };
   store.dispatch(action);
-  console.log("current value now::", store.value);
 });

@@ -28,5 +28,17 @@ export class Store {
 
   dispatch(action: Action) {
     this.state = this.reduce(this.state, action);
+    this.subscribers.forEach((subscriber) => subscriber(this.state));
+  }
+
+  subscribe(fn: Function) {
+    this.subscribers = [...this.subscribers, fn];
+    fn(this.state);
+
+    return () => {
+      this.subscribers = this.subscribers.filter(
+        (subscriber) => subscriber !== fn
+      );
+    };
   }
 }
