@@ -11,10 +11,8 @@ const updateButton = document.querySelector(
   "#update-book-author-button"
 ) as HTMLButtonElement;
 
-bookAuthor.innerText = "Initial Book Author";
-
-const store = new Store();
-
+const store = new Store({}, { book: { author: "Initial Book Author" } });
+console.log("current value::", store.value);
 updateButton.addEventListener("click", (e) => {
   if (!bookAuthorInput.value.trim()) {
     return;
@@ -22,4 +20,5 @@ updateButton.addEventListener("click", (e) => {
   const newBookAuthor = bookAuthorInput.value.trim();
   const action = { type: "UPDATE_BOOK_AUTHOR", payload: newBookAuthor };
   store.dispatch(action);
+  console.log("current value now::", store.value);
 });
