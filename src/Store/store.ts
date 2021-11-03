@@ -5,13 +5,23 @@ export class Store {
   state: { [key: string]: any };
   subscribers: Function[];
 
-  constructor() {
-    this.reducers = {};
-    this.state = {};
+  constructor(reducers = {}, initialState = {}) {
+    this.reducers = reducers;
+    this.state = initialState;
     this.subscribers = [];
   }
 
+  get value() {
+    return this.state;
+  }
+
   dispatch(action: Action) {
-    console.log("Action::", action);
+    this.state = {
+      ...this.state,
+      book: {
+        ...this.state.book,
+        author: action.payload,
+      },
+    };
   }
 }
